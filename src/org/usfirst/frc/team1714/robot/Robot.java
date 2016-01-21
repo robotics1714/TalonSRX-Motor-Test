@@ -5,6 +5,9 @@ import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.TalonSRX;
+import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.DigitalInput;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -18,6 +21,10 @@ public class Robot extends IterativeRobot {
     final String customAuto = "My Auto";
     String autoSelected;
     SendableChooser chooser;
+    Joystick stick;
+    TalonSRX talon;
+    DigitalInput lswitch;
+    
 	
     /**
      * This function is run when the robot is first started up and should be
@@ -28,6 +35,9 @@ public class Robot extends IterativeRobot {
         chooser.addDefault("Default Auto", defaultAuto);
         chooser.addObject("My Auto", customAuto);
         SmartDashboard.putData("Auto choices", chooser);
+        stick = new Joystick(0);
+        talon = new TalonSRX(0);
+        lswitch = new DigitalInput(0);
     }
     
 	/**
@@ -64,7 +74,28 @@ public class Robot extends IterativeRobot {
      * This function is called periodically during operator control
      */
     public void teleopPeriodic() {
-        
+    	if(stick.getRawButton(1) || !lswitch.get())
+    	{
+    		talon.set(0.0);
+    	}
+    	else if(stick.getRawButton(5))
+    	{
+    		talon.set(1.0);
+    	}
+    	else if(stick.getRawButton(3))
+    	{
+    		talon.set(0.5);
+    	}
+    	else if(stick.getRawButton(4))
+    	{
+    		talon.set(-0.5);
+    	}
+    	else if(stick.getRawButton(6))
+    	{
+    		talon.set(-1.0);
+    	}
+
+
     }
     
     /**
